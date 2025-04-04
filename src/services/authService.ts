@@ -8,7 +8,9 @@ type LoginResponse = {
   };
 };
 
+// login is a function that logs in a user
 export async function login(credentials: CredentialsLogin) {
+  // ResultAsync is a method from the neverthrow library that allows us to handle errors in a more type-safe way
   return ResultAsync.fromPromise(
     api.post<LoginResponse>('/user/login', credentials).then(response => {
       if (response.data.body.token) {

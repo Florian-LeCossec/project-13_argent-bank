@@ -4,7 +4,7 @@ import { getToken } from '../services/authService';
 const api = axios.create({
   baseURL: 'http://localhost:3001/api/v1',
 });
-
+// interceptor to add the token to the request
 api.interceptors.request.use(
   (config) => {
     const token = getToken();
