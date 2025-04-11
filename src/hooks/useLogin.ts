@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { login } from '../services/authService';
-import type { CredentialsLogin } from '../types/credentialsLogin';
+import { login } from '../features/auth/authService';
+import type { CredentialsLogin } from '../features/auth/authType';
 
 // useLogin is a hook that logs in a user
 export function useLogin(credentials: CredentialsLogin) {

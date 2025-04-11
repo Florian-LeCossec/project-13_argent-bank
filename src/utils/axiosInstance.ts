@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../services/authService';
+import { getToken } from '../features/auth/authService';
 
 const api = axios.create({
   baseURL: 'http://localhost:3001/api/v1',
