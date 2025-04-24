@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getUser } from './userService';
+import { getUser, updateUser } from './userService';
+import type { User } from './userType';
 
 export const getUserThunk = createAsyncThunk(
   'user/getUser',
@@ -13,6 +14,17 @@ export const getUserThunk = createAsyncThunk(
         }
         return rejectWithValue(err);
       },
+    );
+  },
+);
+
+export const updateUserThunk = createAsyncThunk(
+  'user/updateUser',
+  async (user: User, { rejectWithValue }) => {
+    const result = await updateUser(user);
+    return result.match(
+      (ok) => ok,
+      (err) => rejectWithValue(err),
     );
   },
 );

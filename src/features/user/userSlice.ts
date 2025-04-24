@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from './userType';
-import { getUserThunk } from './userThunk';
+import { getUserThunk, updateUserThunk } from './userThunk';
 
 type UserState = {
   user: User | null;
@@ -27,7 +27,11 @@ const userSlice = createSlice({
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },
+    resetError(state) {
+      state.error = null;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getUserThunk.pending, (state) => {
@@ -40,9 +44,20 @@ const userSlice = createSlice({
       .addCase(getUserThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { setUser, setLoading, setError } = userSlice.actions;
+export const { setUser, setLoading, setError, resetError } = userSlice.actions;
 export default userSlice.reducer;

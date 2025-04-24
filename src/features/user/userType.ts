@@ -6,3 +6,11 @@ export type User = {
     lastName: string;
     updatedAt: string;
 };
+
+export type UserInput = {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+};
+  

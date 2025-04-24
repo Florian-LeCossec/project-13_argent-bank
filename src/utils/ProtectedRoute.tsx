@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router';
-import { getToken } from '../features/auth/authService';
+import { useAppSelector } from '../hooks/rtkHooks';
 
 function ProtectedRoute() {
-  const token = getToken();
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 }
 export default ProtectedRoute;

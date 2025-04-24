@@ -41,5 +41,3 @@ export async function login(
 export function getToken() {
   return localStorage.getItem('token');
 }
-
-

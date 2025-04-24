@@ -2,14 +2,7 @@ import { User } from './userType';
 import axios from 'axios';
 import api from '../../utils/axiosInstance';
 import { ResultAsync } from 'neverthrow';
-
-
-type UserInput = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
+import type { UserInput } from './userType';
 
 type UserResponse = {
   status: number;
@@ -17,24 +10,7 @@ type UserResponse = {
   body: User;
 };
 
-// createUser is a function that creates a user
-export async function createUser(user: UserInput): Promise<ResultAsync<User, 'create user failed'>> {
-  // ResultAsync is a method from the neverthrow library that allows us to handle errors in a more type-safe way
-  return ResultAsync.fromPromise(
-    api.post<UserResponse>('/user/create', { user }).then(response => response.data.body),
-    (error) => {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 400) {
-          return 'create user failed';
-        }
-      }
-      return 'create user failed';
-    },
-  );
-}
-
 type getUserFailed = 'get user failed' | 'unauthorized';
-
 // getUser is a function that gets a user
 export async function getUser(): Promise<ResultAsync<User, getUserFailed>> {
   return ResultAsync.fromPromise(
@@ -48,11 +24,17 @@ export async function getUser(): Promise<ResultAsync<User, getUserFailed>> {
   );
 }
 
+type UpdateUserFailed = 'update user failed' | 'unauthorized';
 // updateUser is a function that updates a user
-export async function updateUser(user: Pick<UserInput, 'firstName' | 'lastName'>) {
+export async function updateUser(user: Pick<UserInput, 'firstName' | 'lastName'>): Promise<ResultAsync<User, UpdateUserFailed>> {
   // ResultAsync is a method from the neverthrow library that allows us to handle errors in a more type-safe way
   return ResultAsync.fromPromise(
     api.put<UserResponse>('/user/profile', user).then(response => response.data.body),
-    () => 'update user failed',
+    (error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) return 'unauthorized';
+      }
+      return 'update user failed';
+    },
   );
 }
