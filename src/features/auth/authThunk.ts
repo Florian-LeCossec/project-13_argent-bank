@@ -7,7 +7,9 @@ export const loginThunk = createAsyncThunk(
   async (credentials: CredentialsLogin, { rejectWithValue }) => {
     const result = await login(credentials);
     return result.match(
-      (ok) => ok,
+      (ok) => {
+        return ok;
+      },
       (err) => rejectWithValue(err),
     );
   },
