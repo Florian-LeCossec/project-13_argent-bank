@@ -5,12 +5,16 @@ html {
     text-align: center;
     color: #2c3e50;
   }
-  
-  body {
+
+  #root {
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  body {
+    margin: 0;
   }
   
   .main {
@@ -71,7 +75,7 @@ html {
   }
   
   .hero {
-    background-image: url('../img/bank-tree.jpeg');
+    background-image: url('../assets/img/bank-tree.jpeg');
     background-position: 0 -50px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -163,6 +167,7 @@ html {
     border-color: #00bc77;
     background-color: #00bc77;
     color: #fff;
+    border: none;
   }
   
   .sign-in-content {

@@ -10,8 +10,8 @@ type AuthState = {
 };
 
 const initialState: AuthState = {
-  token: null,
-  isAuthenticated: false,
+  token: localStorage.getItem('token'),
+  isAuthenticated: !!localStorage.getItem('token'),
   loading: false,
   error: null,
 };
@@ -36,6 +36,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.isAuthenticated = true;
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;

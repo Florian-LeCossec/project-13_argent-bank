@@ -2,7 +2,6 @@ import { User } from './userType';
 import axios from 'axios';
 import api from '../../utils/axiosInstance';
 import { ResultAsync } from 'neverthrow';
-import type { UserInput } from './userType';
 
 type UserResponse = {
   status: number;
@@ -26,7 +25,7 @@ export async function getUser(): Promise<ResultAsync<User, getUserFailed>> {
 
 type UpdateUserFailed = 'update user failed' | 'unauthorized';
 // updateUser is a function that updates a user
-export async function updateUser(user: Pick<UserInput, 'firstName' | 'lastName'>): Promise<ResultAsync<User, UpdateUserFailed>> {
+export async function updateUser(user: Pick<User, 'firstName' | 'lastName'>): Promise<ResultAsync<User, UpdateUserFailed>> {
   // ResultAsync is a method from the neverthrow library that allows us to handle errors in a more type-safe way
   return ResultAsync.fromPromise(
     api.put<UserResponse>('/user/profile', user).then(response => response.data.body),

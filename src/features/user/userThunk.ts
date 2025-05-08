@@ -20,7 +20,7 @@ export const getUserThunk = createAsyncThunk(
 
 export const updateUserThunk = createAsyncThunk(
   'user/updateUser',
-  async (user: User, { rejectWithValue }) => {
+  async (user: Pick<User, 'firstName' | 'lastName'>, { rejectWithValue }) => {
     const result = await updateUser(user);
     return result.match(
       (ok) => ok,

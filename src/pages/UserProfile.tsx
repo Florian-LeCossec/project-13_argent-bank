@@ -1,9 +1,63 @@
+import { useAppDispatch, useAppSelector } from '../hooks/rtkHooks';
+import { useEffect, useState } from 'react';
+import { getUserThunk } from '../features/user/userThunk';
+import { updateUserThunk } from '../features/user/userThunk';
+import { selectUser } from '../features/user/userSlice';
+
 function UserProfile() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const [isEditing, setIsEditing] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await dispatch(getUserThunk()).unwrap();
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      }
+    };
+
+    void fetchUser();
+  }, [dispatch]);
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSave = async () => {
+    console.log('je passe');
+    if (firstName && lastName) {
+      await dispatch(updateUserThunk({ firstName, lastName }));
+      setIsEditing(!isEditing);
+    }
+  };
+
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
+        {!isEditing ? (
+          <h1>Welcome back <br />{user?.firstName} {user?.lastName}!</h1>
+        ) : (
+          <>
+            <h1>Welcome back</h1>
+            <form>
+              <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+              <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            </form>
+            <div>
+              <button className="edit-button" onClick={() => void handleSave()}>Save</button>
+              <button className="edit-button" onClick={handleEditClick}>Cancel</button>
+            </div>
+          </>
+        )}
+        {!isEditing && (
+          <button className="edit-button" onClick={handleEditClick}>Edit Name</button>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
