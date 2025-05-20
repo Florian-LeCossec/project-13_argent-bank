@@ -5,10 +5,10 @@ Argent Bank is a modern banking application that allows users to manage their ac
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Node.js (v12 for the backend and higher for the frontend) [Node.js v12](https://nodejs.org/en/)
+- Node.js (v12 for the backend and node >= 20 for the frontend) - [Node.js v12](https://nodejs.org/en/)
 - npm
 - pnpm - for frontend only
-- MongoDb [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+- MongoDb - [MongoDB Community Server](https://www.mongodb.com/try/download/community)
 ## Project Structure
 
 The project is divided into two main parts:
