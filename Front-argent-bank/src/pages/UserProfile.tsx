@@ -45,11 +45,11 @@ function UserProfile() {
         ) : (
           <>
             <h1>Welcome back</h1>
-            <form>
+            <form className="edit-form">
               <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
               <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </form>
-            <div>
+            <div className="edit-button-container">
               <button className="edit-button" onClick={() => void handleSave()}>Save</button>
               <button className="edit-button" onClick={handleEditClick}>Cancel</button>
             </div>

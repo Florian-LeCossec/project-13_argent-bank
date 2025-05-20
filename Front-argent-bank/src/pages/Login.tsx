@@ -7,7 +7,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { error, login } = useLogin();
+  const { error, login, resetError } = useLogin();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
@@ -17,13 +17,23 @@ function Login() {
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
       await login({ email, password });
       await navigate('/user-profile');
     } catch (error) {
-      console.error(error);
+      console.error('Login failed:', error);
     }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    resetError();
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    resetError();
   };
 
   return (
@@ -31,18 +41,14 @@ function Login() {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form
-          onSubmit={(e) => {
-            void handleSubmit(e);
-          }}
-        >
+        <form onSubmit={(e) => void handleSubmit(e)}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
           </div>
           <div className="input-wrapper">
@@ -51,18 +57,18 @@ function Login() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
           </div>
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
+          {error && <p className="error-message">{error}</p>}
           <button className="sign-in-button" type="submit">
             Sign In
           </button>
         </form>
-        {error && <p className="error-message">{error}</p>}
       </section>
     </main>
   );

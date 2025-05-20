@@ -10,11 +10,25 @@ export function useLogin() {
 
   const loginMethod = useCallback(async (credentials: CredentialsLogin) => {
     try {
-      await dispatch(loginThunk(credentials)).unwrap();
+      setError(null);
+      const result = await dispatch(loginThunk(credentials));
+      if (loginThunk.rejected.match(result)) {
+        setError(result.payload as string);
+        throw new Error(result.payload as string);
+      }
     } catch (err) {
-      setError(err as string);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An error occurred');
+      }
+      throw err;
     }
   }, [dispatch]);
 
-  return { error, login: loginMethod };
+  const resetError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return { error, login: loginMethod, resetError };
 }

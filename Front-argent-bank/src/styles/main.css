@@ -44,6 +44,7 @@ html {
     justify-content: space-between;
     align-items: center;
     padding: 5px 20px;
+    position: relative;
   }
   
   .main-nav a {
@@ -57,7 +58,10 @@ html {
   
   .main-nav-item {
     text-decoration: none;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
+    &:last-child {
+      margin-right: 0;
+    }
   }
   
   .main-nav-item:hover {
@@ -102,6 +106,11 @@ html {
   .hero-content .text {
     margin-bottom: 0;
     font-size: 0.9rem;
+  }
+
+  .error-message {
+    color: red;
+    margin: 10px 0;
   }
   
   @media (min-width: 920px) {
@@ -280,6 +289,37 @@ html {
     background-color: #00bc77;
     color: #fff;
   }
+
+  .edit-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    align-items: center;
+  
+    input {
+      height: 45px;
+      width: 300px;
+      padding: 5px;
+      font-size: 1.2rem;
+    }
+  }
+  
+  .edit-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  
+    .edit-button {
+      min-width: 120px;
+    }
+  }
+
+  .header-icon {
+    margin-right: 0.25rem;
+  }
   
   @media (min-width: 720px) {
     .account {
@@ -293,4 +333,73 @@ html {
     .transaction-button {
       width: 200px;
     }
+
+    .edit-form {
+      flex-direction: row;
+    }
+  }
+
+  .hamburger-menu {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1.5rem;
+    color: #2c3e50;
+  }
+
+  .nav-items {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger-menu {
+      display: block;
+      z-index: 1001;
+    }
+
+    .nav-items {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .nav-items.active {
+      display: flex;
+    }
+
+    .main-nav-item {
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-nav-item:first-child {
+      position: relative;
+    }
+
+    .main-nav-item:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 1px;
+      background-color: #e0e0e0;
+    }
+
+    
   }
